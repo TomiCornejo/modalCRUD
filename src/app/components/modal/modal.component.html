@@ -1,0 +1,22 @@
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content bg-dark border-secondary text-white">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">{{type}} colección</h5>
+            </div>
+
+            <div id="agregarComentario" class="modal-body">
+                <input (keyup)="checkText()" [(ngModel)]="title" type="text" class="form-control" placeholder="Titulo">
+                <textarea (keyup)="checkText()" [(ngModel)]="text" class="form-control mt-2" aria-label="With textarea" placeholder="Texto"></textarea>
+                <input class="form-control mt-2" type="file">
+            </div>
+
+            <div class="modal-footer">
+                <button (click)="cancel()" type="button" class="btn btn-secondary bg-gradient border-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button (click)="submit()" *ngIf="checkFlag" type="button" class="btn btn-dark bg-gradient border-secondary" data-bs-dismiss="modal">{{type}}</button>
+            </div>
+
+        </div>
+    </div>
+</div>

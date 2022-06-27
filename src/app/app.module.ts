@@ -3,14 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CrudScreenComponent } from './screens/crud-screen/crud-screen.component';
+import { CardComponent } from './components/card/card.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { AddBtnComponent } from './components/add-btn/add-btn.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CrudScreenComponent,
+    CardComponent,
+    ModalComponent,
+    AddBtnComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
