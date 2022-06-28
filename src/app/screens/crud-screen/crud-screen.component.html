@@ -1,8 +1,8 @@
 <div class="container align-items-center">
     <app-add-btn (add)="editType($event)" class="row col-1 mt-3 ms-3"></app-add-btn>
     <div class="row">
-        <app-card (editType)="editType($event)" (editItem)="editItem($event)" (delete)="deleteItem($event)" class="col-12 col-lg-4 m-3" *ngFor="let item of items" [item]="item"></app-card>
+        <app-card (editType)="editType($event)" (editItem)="editItem($event)" class="col-12 col-lg-4 m-3" *ngFor="let item of items" [item]="item"></app-card>
     </div>
 </div>
 
-<app-modal [type]="type" [title]="title" [text]="text" [item]="item" (add)="addItem($event)"></app-modal>
+<app-modal [type]="type" [title]="title" [text]="text" [item]="item" [img]="img" (add)="addItem($event)"></app-modal>

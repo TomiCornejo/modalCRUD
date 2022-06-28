@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Item } from 'src/app/models/item.model';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-card',
@@ -11,9 +12,8 @@ export class CardComponent implements OnInit {
   @Input() item:Item;
   @Output() editType =  new EventEmitter<string>();
   @Output() editItem =  new EventEmitter<Item>();
-  @Output() delete =  new EventEmitter<Item>();
 
-  constructor() { }
+  constructor(private api:ApiService) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +24,8 @@ export class CardComponent implements OnInit {
   }
 
   deleteItem(){
-    this.delete.emit(this.item);
+    this.api.delete(this.item.id).subscribe(data=>{
+      console.log(data);
+    });
   }
 }

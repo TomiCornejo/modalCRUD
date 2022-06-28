@@ -1,5 +1,5 @@
 <div class="card bg-dark border-secondary text-white" >
-    <img src="{{item.img}}" class="card-img-top">
+    <img src="{{'http://127.0.0.1:8000' + item.img}}" class="card-img-top">
     <div class="card-body">
       <button (click)="deleteItem()" class="btn btn-dark bg-gradient border-secondary float-end" type="button">❌</button>
       <button (click)="edit()" class="btn btn-dark bg-gradient border-secondary float-end me-3" type="button" data-bs-toggle="modal" data-bs-target="#Modal">📝</button>

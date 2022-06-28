@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Item } from 'src/app/models/item.model';
-import { ResponseI } from 'src/app/models/response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,29 @@ export class ApiService {
 
   constructor(private http:HttpClient) { }
 
-  postItem(item:Item):Observable<ResponseI>{
-    let direction = this.url + "api/item";
-    return this.http.post<ResponseI>(direction,item);
+  list():Observable<any>{
+    let url = this.url + "api/item/"
+    return this.http.get(url);
+  }
+
+  post(item:Item):Observable<any>{
+    let url = this.url + "api/item/";
+    return this.http.post(url,item);
+  }
+
+  delete(i:number):Observable<any>{
+    let url = this.url + "api/item/" + i;
+    return this.http.delete(url);
+  }
+
+  put(item:Item){
+    let url = this.url + "api/item/" + item.id;
+    return this.http.put(url,item);
+  }
+
+  putNotImg(item:Item){
+    let url = this.url + "api/item/" + item.id;
+    let value = {"title":item.title,"text":item.text};
+    return this.http.put(url,value);
   }
 }

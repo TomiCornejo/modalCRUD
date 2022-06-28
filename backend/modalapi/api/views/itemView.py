@@ -37,6 +37,7 @@ def item_detail_api_view(request,pk=None):
             return Response(item_serializer.errors,status = status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
+            item.img.delete(save=True)
             item.delete()
             return Response({'message':'Item deleted'},status = status.HTTP_200_OK)
     

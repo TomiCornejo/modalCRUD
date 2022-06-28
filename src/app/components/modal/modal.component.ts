@@ -14,11 +14,11 @@ export class ModalComponent implements OnInit {
   @Input() type:string;
   @Input() title:string;
   @Input() text:string;
+  @Input() img:string;
   @Input() item:Item;
 
   checkFlag:boolean = false;
   imgFlag:boolean = false;
-  img:string;
 
   @Output() add = new EventEmitter<Item>();
 
@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
   }
 
   checkText(){
-    if(this.title == '' || this.text == ''){
+    if(this.title == '' || this.text == '' || this.img == ''){
       this.checkFlag = false;
     }else{
       this.checkFlag = true;
@@ -39,9 +39,11 @@ export class ModalComponent implements OnInit {
     if(this.type == 'Agregar'){
       this.title = '';
       this.text = '';
+      this.img = '';
     }else{
       this.title = this.item.title;
       this.text = this.item.text;
+      this.img = this.item.img;
     }
     this.checkFlag = false;
     this.imgFlag = false;
@@ -49,12 +51,24 @@ export class ModalComponent implements OnInit {
 
   submit(){
     if(this.type == 'Agregar'){
-      //this.api.postItem(new Item(this.img,this.title,this.text));
-      this.add.emit(new Item(this.img,this.title,this.text));
+      this.api.post(new Item(this.img,this.title,this.text)).subscribe(data=>{
+        console.log(data);
+      });
       this.cancel();
     }else{
       this.item.title = this.title;
       this.item.text = this.text;
+      if(this.item.img == this.img){
+        this.api.putNotImg(this.item).subscribe(data=>{
+          console.log(data);
+        });
+      }else{
+        this.item.img = this.img;
+        this.api.put(this.item).subscribe(data=>{
+          console.log(data);
+        });
+      }
+
       this.cancel();
     }
   }

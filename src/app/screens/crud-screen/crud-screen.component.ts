@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from 'src/app/models/item.model';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-crud-screen',
@@ -8,17 +9,25 @@ import { Item } from 'src/app/models/item.model';
 })
 export class CrudScreenComponent implements OnInit {
 
-  items:Item[] = [];
+  items:Item[];
 
   type:string;
   title:string;
   text:string;
+  img:string;
 
   item:Item;
 
-  constructor() { }
+  constructor(private api:ApiService) { }
 
   ngOnInit(): void {
+    this.load();
+  }
+
+  load(){
+    this.api.list().subscribe(data=>{
+      this.items = data;
+    });
   }
 
   editType(type:string){
@@ -33,14 +42,11 @@ export class CrudScreenComponent implements OnInit {
   addItem(item:Item){
     this.items.push(item);
   }
-
-  deleteItem(item:Item){
-    this.items.splice(this.items.indexOf(item),1);
-  }
-
+  
   editItem(item:Item){
     this.title = item.title;
     this.text = item.text;
+    this.img = item.img;
     this.item = item;
   }
 }
