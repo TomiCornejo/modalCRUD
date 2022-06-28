@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { async } from '@angular/core/testing';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Item } from 'src/app/models/item.model';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-modal',
@@ -14,10 +17,12 @@ export class ModalComponent implements OnInit {
   @Input() item:Item;
 
   checkFlag:boolean = false;
+  imgFlag:boolean = false;
+  img:string;
 
   @Output() add = new EventEmitter<Item>();
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer,private api:ApiService) { }
 
   ngOnInit(): void {
   }
@@ -39,11 +44,13 @@ export class ModalComponent implements OnInit {
       this.text = this.item.text;
     }
     this.checkFlag = false;
+    this.imgFlag = false;
   }
 
   submit(){
     if(this.type == 'Agregar'){
-      this.add.emit(new Item('https://media.discordapp.net/attachments/986412132881006602/990734490211078164/Conejo_Swager.png',this.title,this.text));
+      //this.api.postItem(new Item(this.img,this.title,this.text));
+      this.add.emit(new Item(this.img,this.title,this.text));
       this.cancel();
     }else{
       this.item.title = this.title;
@@ -51,4 +58,34 @@ export class ModalComponent implements OnInit {
       this.cancel();
     }
   }
+
+  captureFile(event:any){
+    const img = event.target.files[0];
+    this.extractBase64(img).then((image:any)=>{
+      this.img = image.base;
+    });
+    this.imgFlag = true;
+  }
+
+  extractBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+      return reader.result;
+    } catch (e) {
+      return null;
+    }
+  })
 }

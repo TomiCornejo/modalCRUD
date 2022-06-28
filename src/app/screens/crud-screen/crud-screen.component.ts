@@ -8,12 +8,7 @@ import { Item } from 'src/app/models/item.model';
 })
 export class CrudScreenComponent implements OnInit {
 
-  items:Item[] = [
-    new Item(
-      "https://media.discordapp.net/attachments/986412132881006602/990734490211078164/Conejo_Swager.png",
-      "Conejo",
-      "Mira que conejo más cool, viene de Terraria y tiene lentes de sol 😎"),
-  ];
+  items:Item[] = [];
 
   type:string;
   title:string;
