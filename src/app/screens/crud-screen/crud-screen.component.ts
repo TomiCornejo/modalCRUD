@@ -24,10 +24,24 @@ export class CrudScreenComponent implements OnInit {
     this.load();
   }
 
+  editItem(item:Item){
+    this.title = item.title;
+    this.text = item.text;
+    this.img = item.img;
+    this.item = item;
+  }
+
   load(){
     this.api.list().subscribe(data=>{
       this.items = data;
     });
+  }
+
+  deleteItem(id:number){
+    this.api.delete(id).subscribe(data=>{
+      console.log(data);
+    });
+    this.load();
   }
 
   editType(type:string){
@@ -38,15 +52,11 @@ export class CrudScreenComponent implements OnInit {
       this.text = '';
     }
   }
-
-  addItem(item:Item){
-    this.items.push(item);
-  }
   
-  editItem(item:Item){
-    this.title = item.title;
-    this.text = item.text;
-    this.img = item.img;
-    this.item = item;
+  addItem(item:Item){
+    this.api.post(item).subscribe(data=>{
+      console.log(data);
+    });
+    this.load();
   }
 }
