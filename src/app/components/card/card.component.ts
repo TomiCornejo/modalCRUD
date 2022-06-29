@@ -10,7 +10,7 @@ export class CardComponent implements OnInit {
 
   @Input() item:Item;
   @Output() editType =  new EventEmitter<string>();
-  @Output() editItem =  new EventEmitter<Item>();
+  @Output() getItem =  new EventEmitter<number>();
   @Output() deleteItem = new EventEmitter<number>();
 
   constructor() { }
@@ -20,7 +20,7 @@ export class CardComponent implements OnInit {
 
   editI(){
     this.editType.emit("Editar");
-    this.editItem.emit(this.item);
+    this.getItem.emit(this.item.id);
   }
 
   deleteI(){

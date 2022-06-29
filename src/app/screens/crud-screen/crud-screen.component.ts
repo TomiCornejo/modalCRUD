@@ -10,53 +10,63 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class CrudScreenComponent implements OnInit {
 
   items:Item[];
-
   type:string;
-  title:string;
-  text:string;
-  img:string;
-
   item:Item;
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService){}
 
   ngOnInit(): void {
-    this.load();
+    this.list();
+    this.item = new Item('','','');
   }
 
-  editItem(item:Item){
-    this.title = item.title;
-    this.text = item.text;
-    this.img = item.img;
-    this.item = item;
-  }
-
-  load(){
+  list(){
+    //this.items.splice(0, this.items.length);
     this.api.list().subscribe(data=>{
       this.items = data;
     });
+  }
+
+  getItem(id:number){
+    this.api.get(id).subscribe(data=>{
+      this.item = data;
+    });
+  }
+
+  addItem(item:Item){
+    this.api.post(item).subscribe(data=>{
+      console.log(data);
+    });
+    this.list();
+  }
+
+  editType(type:string){
+    this.type = type;
+    if(this.type == "Agregar"){
+      this.item.title = '';
+      this.item.text = '';
+      this.item.img = '';
+    }
+  }
+
+  editItem(item:Item){
+    item.id = this.item.id;
+    if(this.item.img == item.img){
+      this.api.putNotImg(item).subscribe(data=>{
+        console.log(data);
+      });
+    }else{
+      this.api.put(item).subscribe(data=>{
+        console.log(data);
+      });
+    }
+    this.list();
   }
 
   deleteItem(id:number){
     this.api.delete(id).subscribe(data=>{
       console.log(data);
     });
-    this.load();
-  }
-
-  editType(type:string){
-    this.type = type;
-
-    if(this.type == "Agregar"){
-      this.title = '';
-      this.text = '';
-    }
-  }
-  
-  addItem(item:Item){
-    this.api.post(item).subscribe(data=>{
-      console.log(data);
-    });
-    this.load();
+    this.list();
   }
 }

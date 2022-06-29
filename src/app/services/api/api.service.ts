@@ -19,6 +19,7 @@ export class ApiService {
 
   post(item:Item):Observable<any>{
     let url = this.url + "api/item/";
+    let value = {"title":item.title,"text":item.text,"img":item.img};
     return this.http.post(url,item);
   }
 
@@ -27,14 +28,19 @@ export class ApiService {
     return this.http.delete(url);
   }
 
-  put(item:Item){
+  put(item:Item):Observable<any>{
     let url = this.url + "api/item/" + item.id;
     return this.http.put(url,item);
   }
 
-  putNotImg(item:Item){
+  putNotImg(item:Item):Observable<any>{
     let url = this.url + "api/item/" + item.id;
     let value = {"title":item.title,"text":item.text};
     return this.http.put(url,value);
+  }
+
+  get(i:number):Observable<any>{
+    let url = this.url + "api/item/" + i;
+    return this.http.get(url);
   }
 }

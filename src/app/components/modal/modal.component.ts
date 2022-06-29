@@ -10,16 +10,17 @@ import { ApiService } from 'src/app/services/api/api.service';
   styleUrls: ['./modal.component.sass']
 })
 export class ModalComponent implements OnInit {
+  
+  @Input() type:string;
   @Input() title:string;
   @Input() text:string;
   @Input() img:string;
-  @Input() item:Item;
 
-  @Input() type:string;
   checkFlag:boolean = false;
   imgFlag:boolean = false;
 
   @Output() addItem = new EventEmitter<Item>();
+  @Output() editItem = new EventEmitter<Item>();
 
   constructor(private sanitizer: DomSanitizer,private api:ApiService) { }
 
@@ -39,10 +40,6 @@ export class ModalComponent implements OnInit {
       this.title = '';
       this.text = '';
       this.img = '';
-    }else{
-      this.title = this.item.title;
-      this.text = this.item.text;
-      this.img = this.item.img;
     }
     this.checkFlag = false;
     this.imgFlag = false;
@@ -53,20 +50,7 @@ export class ModalComponent implements OnInit {
       this.addItem.emit(new Item(this.img,this.title,this.text));
       this.cancel();
     }else{
-      this.item.title = this.title;
-      this.item.text = this.text;
-      
-      if(this.item.img == this.img){
-        this.api.putNotImg(this.item).subscribe(data=>{
-          console.log(data);
-        });
-      }else{
-        this.item.img = this.img;
-        this.api.put(this.item).subscribe(data=>{
-          console.log(data);
-        });
-      }
-
+      this.editItem.emit(new Item(this.img,this.title,this.text));
       this.cancel();
     }
   }
