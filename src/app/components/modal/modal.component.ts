@@ -28,10 +28,18 @@ export class ModalComponent implements OnInit {
   }
 
   checkText(){
-    if(this.title == '' || this.text == '' || this.img == ''){
-      this.checkFlag = false;
+    if(this.type == 'Agregar'){
+      if(this.title == '' || this.text == '' || this.imgFlag == false){
+        this.checkFlag = false;
+      }else{
+        this.checkFlag = true;
+      }
     }else{
-      this.checkFlag = true;
+      if(this.title == '' || this.text == ''){
+        this.checkFlag = false;
+      }else{
+        this.checkFlag = true;
+      }
     }
   }
 
@@ -61,6 +69,7 @@ export class ModalComponent implements OnInit {
       this.img = image.base;
     });
     this.imgFlag = true;
+    this.checkText();
   }
 
   extractBase64 = async ($event: any) => new Promise((resolve, reject) => {

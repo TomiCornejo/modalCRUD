@@ -21,23 +21,25 @@ export class CrudScreenComponent implements OnInit {
   }
 
   list(){
-    //this.items.splice(0, this.items.length);
     this.api.list().subscribe(data=>{
       this.items = data;
     });
   }
 
   getItem(id:number){
+    let array = this.items.filter(function (item) { return item.id == id; });
+    this.item = array[0];
+    /*
     this.api.get(id).subscribe(data=>{
       this.item = data;
-    });
+    });*/
   }
 
   addItem(item:Item){
     this.api.post(item).subscribe(data=>{
       console.log(data);
+      this.items.push(data);
     });
-    this.list();
   }
 
   editType(type:string){
@@ -50,23 +52,26 @@ export class CrudScreenComponent implements OnInit {
   }
 
   editItem(item:Item){
-    item.id = this.item.id;
+    this.item.title = item.title;
+    this.item.text = item.text;
     if(this.item.img == item.img){
-      this.api.putNotImg(item).subscribe(data=>{
+      this.api.putNotImg(this.item).subscribe(data=>{
         console.log(data);
       });
     }else{
-      this.api.put(item).subscribe(data=>{
+      this.item.img = item.img;
+      this.api.put(this.item).subscribe(data=>{
         console.log(data);
+        this.item.img = data.img;
       });
     }
-    this.list();
   }
 
   deleteItem(id:number){
     this.api.delete(id).subscribe(data=>{
       console.log(data);
     });
-    this.list();
+    this.getItem(id);
+    this.items.splice(this.items.indexOf(this.item),1);
   }
 }

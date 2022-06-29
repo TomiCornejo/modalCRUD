@@ -16,7 +16,7 @@ def item_api_view(request):
         item_serializer = ItemSerializer(data = request.data)
         if item_serializer.is_valid():
             item_serializer.save()
-            return Response({'message':'Item created'},status = status.HTTP_201_CREATED)
+            return Response(item_serializer.data,status = status.HTTP_201_CREATED)
         return Response(item_serializer.errors,status = status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET','PUT','DELETE'])
@@ -33,7 +33,7 @@ def item_detail_api_view(request,pk=None):
             item_serializer = ItemSerializer(item,data = request.data)
             if item_serializer.is_valid():
                 item_serializer.save()
-                return Response({'message':'Item updated'},status = status.HTTP_200_OK)
+                return Response(item_serializer.data,status = status.HTTP_200_OK)
             return Response(item_serializer.errors,status = status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
